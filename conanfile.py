@@ -3,7 +3,6 @@
 from conans import ConanFile, AutoToolsBuildEnvironment, CMake, tools
 from conans.errors import ConanInvalidConfiguration
 import os
-import shutil
 
 
 class LibpqConan(ConanFile):
@@ -100,7 +99,7 @@ class LibpqConan(ConanFile):
                 autotools.install()
             with tools.chdir(os.path.join(self._source_subfolder, "src", "bin", "pg_config")):
                 autotools.install()
-            shutil.rmtree(os.path.join(self.package_folder, "include", "postgresql", "server"))
+            tools.rmdir(os.path.join(self.package_folder, "include", "postgresql", "server"))
             self.copy(pattern="*.h", dst=os.path.join("include", "catalog"), src=os.path.join(self._source_subfolder, "src", "include", "catalog"))
         self.copy(pattern="*.h", dst=os.path.join("include", "catalog"), src=os.path.join(self._source_subfolder, "src", "backend", "catalog"))
 
