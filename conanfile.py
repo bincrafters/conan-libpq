@@ -22,7 +22,7 @@ class LibpqConan(ConanFile):
         "fPIC": [True, False],
         "with_zlib": [True, False],
         "with_openssl": [True, False]}
-    default_options = {'shared': False, 'fPIC': True, 'with_zlib': False, 'with_openssl': False}
+    default_options = {'shared': False, 'fPIC': True, 'with_zlib': True, 'with_openssl': False}
     generators = "cmake"
     _autotools = None
 
