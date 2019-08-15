@@ -30,6 +30,13 @@ class LibpqConan(ConanFile):
     def _source_subfolder(self):
         return "source_subfolder"
 
+    @property
+    def _is_clang8_x86(self):
+        return self.settings.os == "Linux" and \
+               self.settings.compiler == "clang" and \
+               self.settings.compiler.version == "8" and \
+               self.settings.arch == "x86"
+
     def config_options(self):
         if self.settings.os == 'Windows':
             del self.options.fPIC
@@ -58,6 +65,8 @@ class LibpqConan(ConanFile):
             args = ['--without-readline']
             args.append('--with-zlib' if self.options.with_zlib else '--without-zlib')
             args.append('--with-openssl' if self.options.with_openssl else '--without-openssl')
+            if self._is_clang8_x86:
+                self._autotools.flags.append("-msse2")
             with tools.chdir(self._source_subfolder):
                 self._autotools.configure(args=args)
         return self._autotools
@@ -76,7 +85,7 @@ class LibpqConan(ConanFile):
         else:
             autotools = self._configure_autotools()
             with tools.chdir(os.path.join(self._source_subfolder, "src", "common")):
-                autotools.make()                
+                autotools.make()
             with tools.chdir(os.path.join(self._source_subfolder, "src", "include")):
                 autotools.make()
             with tools.chdir(os.path.join(self._source_subfolder, "src", "interfaces", "libpq")):
