@@ -84,13 +84,7 @@ class LibpqConan(ConanFile):
             cmake.build()
         else:
             autotools = self._configure_autotools()
-            with tools.chdir(os.path.join(self._source_subfolder, "src", "common")):
-                autotools.make()
-            with tools.chdir(os.path.join(self._source_subfolder, "src", "include")):
-                autotools.make()
-            with tools.chdir(os.path.join(self._source_subfolder, "src", "interfaces", "libpq")):
-                autotools.make()
-            with tools.chdir(os.path.join(self._source_subfolder, "src", "bin", "pg_config")):
+            with tools.chdir(self._source_subfolder):
                 autotools.make()
 
     def package(self):
@@ -100,13 +94,7 @@ class LibpqConan(ConanFile):
             cmake.install()
         else:
             autotools = self._configure_autotools()
-            with tools.chdir(os.path.join(self._source_subfolder, "src", "common")):
-                autotools.install()
-            with tools.chdir(os.path.join(self._source_subfolder, "src", "include")):
-                autotools.install()
-            with tools.chdir(os.path.join(self._source_subfolder, "src", "interfaces", "libpq")):
-                autotools.install()
-            with tools.chdir(os.path.join(self._source_subfolder, "src", "bin", "pg_config")):
+            with tools.chdir(self._source_subfolder):
                 autotools.install()
             tools.rmdir(os.path.join(self.package_folder, "include", "postgresql", "server"))
             self.copy(pattern="*.h", dst=os.path.join("include", "catalog"), src=os.path.join(self._source_subfolder, "src", "include", "catalog"))
