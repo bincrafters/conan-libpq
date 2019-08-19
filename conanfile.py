@@ -84,6 +84,8 @@ class LibpqConan(ConanFile):
             cmake.build()
         else:
             autotools = self._configure_autotools()
+            with tools.chdir(os.path.join(self._source_subfolder, "src", "backend")):
+                autotools.make(target="generated-headers")
             with tools.chdir(os.path.join(self._source_subfolder, "src", "common")):
                 autotools.make()
             with tools.chdir(os.path.join(self._source_subfolder, "src", "include")):
