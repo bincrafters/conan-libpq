@@ -36,6 +36,7 @@ class LibpqConan(ConanFile):
         if self.settings.os == "Windows" and self.settings.compiler == "Visual Studio":
             raise ConanInvalidConfiguration("Visual Studio is not supported yet.")
         del self.settings.compiler.libcxx
+        del self.settings.compiler.cppstd
 
     def requirements(self):
         if self.options.with_zlib:
