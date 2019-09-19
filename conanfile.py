@@ -21,8 +21,9 @@ class LibpqConan(ConanFile):
         "shared": [True, False],
         "fPIC": [True, False],
         "with_zlib": [True, False],
-        "with_openssl": [True, False]}
-    default_options = {'shared': False, 'fPIC': True, 'with_zlib': False, 'with_openssl': False}
+        "with_openssl": [True, False],
+        "disable_rpath": [True, False]}
+    default_options = {'shared': False, 'fPIC': True, 'with_zlib': False, 'with_openssl': False, 'disable_rpath': False}
     _source_subfolder = "source_subfolder"
     _build_subfolder = None
     _autotools = None
@@ -58,6 +59,8 @@ class LibpqConan(ConanFile):
             args = ['--without-readline']
             args.append('--with-zlib' if self.options.with_zlib else '--without-zlib')
             args.append('--with-openssl' if self.options.with_openssl else '--without-openssl')
+            if self.options.disable_rpath:
+                args.append('--disable-rpath')
             with tools.chdir(self._source_subfolder):
                 self._autotools.configure(args=args)
         return self._autotools
