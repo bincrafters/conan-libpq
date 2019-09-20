@@ -7,7 +7,7 @@ import os
 
 class LibpqConan(ConanFile):
     name = "libpq"
-    version = "11.4"
+    version = "11.5"
     description = "The library used by all the standard PostgreSQL tools."
     topics = ("conan", "libpq", "postgresql", "database", "db")
     url = "https://github.com/bincrafters/conan-libpq"
@@ -21,8 +21,9 @@ class LibpqConan(ConanFile):
         "shared": [True, False],
         "fPIC": [True, False],
         "with_zlib": [True, False],
-        "with_openssl": [True, False]}
-    default_options = {'shared': False, 'fPIC': True, 'with_zlib': True, 'with_openssl': False}
+        "with_openssl": [True, False],
+        "disable_rpath": [True, False]}
+    default_options = {'shared': False, 'fPIC': True, 'with_zlib': True, 'with_openssl': False, 'disable_rpath': False}
     generators = "cmake"
     _autotools = None
 
@@ -54,7 +55,7 @@ class LibpqConan(ConanFile):
 
     def source(self):
         source_url = "https://ftp.postgresql.org/pub/source"
-        sha256 = "2043ab71f2a435a9e77b4419f804525a0b9ec1ef37d19c1c2e4013dc1cae01a7"
+        sha256 = "f639af0f8c3f1e470e41c8108cbdaea5836b2738cadd422135aa2a0febc8ae78"
         tools.get("{0}/v{1}/postgresql-{2}.tar.gz".format(source_url, self.version, self.version), sha256=sha256)
         extracted_dir = "postgresql-" + self.version
         os.rename(extracted_dir, self._source_subfolder)
@@ -65,6 +66,8 @@ class LibpqConan(ConanFile):
             args = ['--without-readline']
             args.append('--with-zlib' if self.options.with_zlib else '--without-zlib')
             args.append('--with-openssl' if self.options.with_openssl else '--without-openssl')
+            if self.options.disable_rpath:
+                args.append('--disable-rpath')
             if self._is_clang8_x86:
                 self._autotools.flags.append("-msse2")
             with tools.chdir(self._source_subfolder):
