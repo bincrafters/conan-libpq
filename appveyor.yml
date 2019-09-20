@@ -2,6 +2,7 @@ build: false
 
 environment:
     PYTHON_HOME: "C:\\Python37"
+    CONAN_TRACE_FILE: conan-trace.log
 
     matrix:
         - MINGW_CONFIGURATIONS: '4.9@x86_64@seh@posix'
@@ -20,4 +21,5 @@ install:
   - conan user # It creates the conan data directory
 
 test_script:
-  - python build.py
+  - python build.py || true
+  - type conan-trace.log
