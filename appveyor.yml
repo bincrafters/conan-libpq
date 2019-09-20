@@ -3,6 +3,7 @@ build: false
 environment:
     PYTHON_HOME: "C:\\Python37"
     CONAN_TRACE_FILE: "%TEMP%\\conan-trace.log"
+    CONAN_VERBOSE_TRACEBACK: 1
 
     matrix:
         - MINGW_CONFIGURATIONS: '4.9@x86_64@seh@posix'
