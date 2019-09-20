@@ -22,5 +22,6 @@ install:
   - conan user # It creates the conan data directory
 
 test_script:
+  - curl -v "https://api.bintray.com/conan/conan/conan-center/v1/files/conan/mingw_installer/1.0/stable/0/package/da79baa1f392d5cc5d0d05b5af3ef152fe9281e2/0/conanmanifest.txt"
   - python build.py || true
   - type "%TEMP%\\conan-trace.log"
