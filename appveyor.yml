@@ -4,6 +4,7 @@ environment:
     PYTHON_HOME: "C:\\Python37"
     CONAN_TRACE_FILE: "%TEMP%\\conan-trace.log"
     CONAN_VERBOSE_TRACEBACK: 1
+    CONAN_PIP_PACKAGE: "conan==1.17.0"
 
     matrix:
         - MINGW_CONFIGURATIONS: '4.9@x86_64@seh@posix'
